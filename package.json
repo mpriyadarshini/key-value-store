@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "test": "NODE_ENV=test mocha"
   },
   "author": "",
@@ -13,6 +15,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^5.14.1",
     "mocha": "^6.0.2",
     "supertest": "^3.4.2"
   }
