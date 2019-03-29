@@ -1,31 +1,34 @@
 const app = require('../app');
-const { expect } = require('chai');
 const request = require('supertest');
+
+const http = request(app);
 
 describe('Key Value Store Integration Tests', () => {
   it('should return "Hello World!"', done => {
-    request(app).get('/')
+    http.get('/')
       .expect(200)
-      .expect(`"Hello World!"`, done);
+      .expect('"Hello World!"', done);
   });
 
   it('Should save an object by using a key', done => {
-    request(app)
+    http
       .post('/key1')
-      .send('value')
-      .expect(`"OK"`)
+      .type('application/json')
+      .send({ id: 1, name: 'express' })
+      .expect('"OK"')
       .expect(200, done);
   });
 
   it('Should get an object by its key', done => {
-    request(app)
-      .post('/key1')
-      .send('value')
-      .expect(`"OK"`)
+    http
+      .post('/key-abcd')
+      .send({ id: 1, name: 'express' })
+      .expect('"OK"')
       .end(() => {
-        request(app)
-          .get('/key1')
-          .expect('value')
+        http
+          .get('/key-abcd')
+          .accept('application/json')
+          .expect({ id: 1, name: 'express' })
           .expect(200, done);
       });
   });
